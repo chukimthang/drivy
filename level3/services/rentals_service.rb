@@ -1,16 +1,19 @@
 require 'date'
 
 class RentalsService
-   def self.rental_price_item rental, car
+
+  # return rental price of rental item
+  def self.rental_price_item rental, car
     start_time = DateTime.parse(rental[:start_date])
     end_time = DateTime.parse(rental[:end_date])
     day = (end_time - start_time + 1).to_i
     time_price = time_price day, car
-    intance_price = rental[:distance].to_i * car[:price_per_km].to_i
-    rental_price = time_price + intance_price
+    instance_price = rental[:distance].to_i * car[:price_per_km].to_i
+    rental_price = time_price + instance_price
   end
 
-   def self.rental_item rental_price, rental
+  # return rental_item content commission
+  def self.rental_item rental_price, rental
     commission = 30 * rental_price / 100
     insurance_fee = commission / 2
     start_time = DateTime.parse(rental[:start_date])
@@ -30,6 +33,7 @@ class RentalsService
   
   private
 
+  # total price with number day
   def self.time_price day, car
     time_price = car[:price_per_day]
 
@@ -50,6 +54,7 @@ class RentalsService
     return time_price
   end
 
+  # discount price
   def self.discount percent, number
     number.to_i - percent * number.to_i / 100
   end
